@@ -1,0 +1,28 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Lua",
+            "type": "shell",
+            "command": "${workspaceFolder}\\iup-3.32-Lua54_Win64_bin\\lua54.exe",
+            "args": [
+                "${workspaceFolder}\\main.lua"
+            ],
+            "options": {
+                "env": {
+                    "Path": "${workspaceFolder}\\iup-3.32-Lua54_Win64_bin;${env:Path}"
+                }
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "close": false
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}
