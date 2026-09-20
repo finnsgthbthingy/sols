@@ -115,44 +115,138 @@ function parseBloxstrapRPC(line)
 if biome and biome ~= "" and biome ~= prevBiome then
     currentBiome = biome
     prevBiome = biome
-local biomeIcons = {
-    NORMAL = "https://static.wikia.nocookie.net/sol-rng/images/0/07/DISCORICH-NORMAL.png/revision/latest?cb=20260823042008",
-    WINDY = "https://static.wikia.nocookie.net/sol-rng/images/9/98/DISCORICH-WINDY.png/revision/latest?cb=20260823041210",
-    SNOWY = "https://static.wikia.nocookie.net/sol-rng/images/8/86/DISCORICH-SNOWY.png/revision/latest?cb=20260823041153",
-    RAINY = "https://static.wikia.nocookie.net/sol-rng/images/7/77/DISCORICH-RAINY.png/revision/latest?cb=20260823042833",
-    SANDSTORM = "https://static.wikia.nocookie.net/sol-rng/images/9/92/DISCORICH-SANDSTORM.png/revision/latest?cb=20260823202219",
-    HELL = "https://static.wikia.nocookie.net/sol-rng/images/b/b9/DISCORICH-HELL.png/revision/latest?cb=20260823044812",
-    STARFALL = "https://static.wikia.nocookie.net/sol-rng/images/1/11/DISCORICH-STARFALL.png/revision/latest?cb=20260823041135",
-    HEAVEN = "https://static.wikia.nocookie.net/sol-rng/images/f/f9/Heaven.png/revision/latest?cb=20260616013200",
-    CORRUPTION = "https://static.wikia.nocookie.net/sol-rng/images/5/5f/DISCORICH-CORRUPTION.png/revision/latest?cb=20260823224417",
-    NULL = "https://static.wikia.nocookie.net/sol-rng/images/b/bb/Null_Biome_%28BloxTrap%29.png/revision/latest?cb=20250311003954",
-    DREAMSPACE = "https://static.wikia.nocookie.net/sol-rng/images/7/7a/DreamspaceRichPresenceFIX.png/revision/latest?cb=20251008202603",
-    SINGULARITY = "https://static.wikia.nocookie.net/sol-rng/images/1/13/Singularity_Bloxstrap.png/revision/latest?cb=20260621141103",
-    GLITCHED = "https://static.wikia.nocookie.net/sol-rng/images/d/dc/DISCORICH-BROKEN.png/revision/latest?cb=20260823042244", --couldnt find the official one :c
-    CYBERSPACE = "https://static.wikia.nocookie.net/sol-rng/images/d/dc/DISCORICH-BROKEN.png/revision/latest?cb=20260823042244" --same reason as glitched
-}
-local everyoneping = ""
-if biome == "GLITCHED" or biome == "DREAMSPACE" or biome == "CYBERSPACE" then
-    everyoneping = "@everyone"
-else
-    everyoneping = ""
-end
-local iconURL = biomeIcons[biome]
-sendWebhookMessage({
-    title = os.date("%d.%m.%Y %H:%M:%S"),
-    description = "# Biome Started - **" .. biome .. "**",
-    color = 0x3498DB,
-
-    thumbnail = {
-        url = iconURL
+local biomes = {
+    NORMAL = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/0/07/DISCORICH-NORMAL.png/revision/latest?cb=20260823042008",
+        color = 0x3498DB
     },
 
-    footer = {
-        text = "LuaSol v1.0"
+    WINDY = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/9/98/DISCORICH-WINDY.png/revision/latest?cb=20260823041210",
+        color = 0x2ECC71
+    },
+
+    SNOWY = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/8/86/DISCORICH-SNOWY.png/revision/latest?cb=20260823041153",
+        color = 0xFFFFFF
+    },
+
+    RAINY = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/7/77/DISCORICH-RAINY.png/revision/latest?cb=20260823042833",
+        color = 0x1f299c
+    },
+
+    SANDSTORM = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/9/92/DISCORICH-SANDSTORM.png/revision/latest?cb=20260823202219",
+        color = 0xE5B96B
+    },
+
+    HELL = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/b/b9/DISCORICH-HELL.png/revision/latest?cb=20260823044812",
+        color = 0xf51700
+    },
+
+    STARFALL = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/1/11/DISCORICH-STARFALL.png/revision/latest?cb=20260823041135",
+        color = 0x00179c
+    },
+
+    HEAVEN = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/f/f9/Heaven.png/revision/latest?cb=20260616013200",
+        color = 0xF1C40F
+    },
+
+    CORRUPTION = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/5/5f/DISCORICH-CORRUPTION.png/revision/latest?cb=20260823224417",
+        color = 0x480166
+    },
+
+    NULL = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/b/bb/Null_Biome_%28BloxTrap%29.png/revision/latest?cb=20250311003954",
+        color = 0x000000
+    },
+
+    DREAMSPACE = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/7/7a/DreamspaceRichPresenceFIX.png/revision/latest?cb=20251008202603",
+        color = 0xFF69B4
+    },
+
+    SINGULARITY = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/1/13/Singularity_Bloxstrap.png/revision/latest?cb=20260621141103",
+        color = 0xff7300
+    },
+
+    GLITCHED = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/d/dc/DISCORICH-BROKEN.png/revision/latest?cb=20260823042244",
+        color = 0x303336
+    },
+
+    CYBERSPACE = {
+        icon = "https://static.wikia.nocookie.net/sol-rng/images/d/dc/DISCORICH-BROKEN.png/revision/latest?cb=20260823042244",
+        color = 0x020030
+    },
+    ["BLAZING SUN"] = {
+        icon = "https://raw.githubusercontent.com/vexsyx/OysterDetector/refs/heads/main/assets/blazing%20sun.png",
+        color = 0xfcba03
     }
-}, everyoneping)
+}
+
+biomedata = biomes[biome]
+
+local shouldDetect = false
+
+if biome == "NORMAL" then
+    shouldDetect = donormalbiomedetection
+elseif biome == "WINDY" then
+    shouldDetect = dowindybiomedetection
+elseif biome == "SNOWY" then
+    shouldDetect = dosnowybiomedetection
+elseif biome == "RAINY" then
+    shouldDetect = dorainybiomedetection
+elseif biome == "SANDSTORM" then
+    shouldDetect = dosandstormbiomedetection
+elseif biome == "HELL" then
+    shouldDetect = dohellbiomedetection
+elseif biome == "STARFALL" then
+    shouldDetect = dostarfallbiomedetection
+elseif biome == "HEAVEN" then
+    shouldDetect = doheavenbiomedetection
+elseif biome == "CORRUPTION" then
+    shouldDetect = docorruptionbiomedetection
+elseif biome == "NULL" then
+    shouldDetect = donullbiomedetection
+elseif biome == "SINGULARITY" then
+    shouldDetect = dosingularitybiomedetection
+elseif biome == "BLAZING SUN" then
+    shouldDetect = doblazingsunbiomedetection
 end
 
+if shouldDetect and biomedata then
+    local everyoneping = ""
+
+    if biome == "GLITCHED"
+    or biome == "DREAMSPACE"
+    or biome == "CYBERSPACE" then
+        everyoneping = "@everyone"
+    end
+end
+    sendWebhookMessage({
+        title = os.date("%d.%m.%Y %H:%M:%S"),
+
+        description = "> ### Biome Started - " .. biome ..
+                      "\n> ### [Join Server](" .. privateServerLink .. ")",
+
+        color = biomedata.color,
+
+        thumbnail = {
+            url = biomedata.icon
+        },
+
+        footer = {
+            text = "LuaSol v1.0"
+        }
+    }, everyoneping)
+end
     -- AURA
     if state
     and state ~= ""

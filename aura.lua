@@ -1,6 +1,6 @@
 function drawAura()
-        local buttonx = 250
-    local buttony = 150
+        local buttonx = 475 
+    local buttony = 65
     love.graphics.setColor(0.5, 0.5, 0.5, 0.5)
     drawCornerBox(230, 10, 500, 30)
     love.graphics.setColor(1, 1, 1, 1)

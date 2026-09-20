@@ -1,3 +1,6 @@
+
+
+
 local ffi = require("ffi")
 
 ffi.cdef[[
@@ -111,6 +114,7 @@ local width = 1000
 local height = 600
 
 function love.draw()
+
     love.graphics.clear(0.2,0.2,0.2,0.5)
     fontconfig("bold", 20)
     love.graphics.setColor(1, 1, 1, 1)
